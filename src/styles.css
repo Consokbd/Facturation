@@ -1,0 +1,34 @@
+body { background:#f7f9fc; }
+.card { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+
+#invoice-print-area {
+  display: none;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+    height: 0;
+  }
+  #invoice-print-area, #invoice-print-area * {
+    visibility: visible;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: auto;
+  }
+}
+
+img, svg { max-width: 100%; height: auto; }
+.table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.card { word-break: break-word; }
+.form-control { min-width: 0; }
+@media (max-width: 576px) {
+  .card-body { padding: 0.75rem; }
+  .btn { font-size: 0.95rem; }
+}
+@media print {
+  .no-print { display: none !important; }
+}

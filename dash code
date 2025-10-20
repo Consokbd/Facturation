@@ -1,0 +1,42 @@
+import React, { useEffect, useState } from 'react'
+import { listInvoices } from "./services_storage";
+
+export default function Dashboard(){
+  const [invoices, setInvoices] = useState([])
+
+  useEffect(()=> {
+    setInvoices(listInvoices())
+  }, [])
+
+  const totalRevenue = invoices.reduce((s,inv)=> s + (inv.finalAmount||0),0)
+
+  return (
+    <div>
+      <h4>Dashboard Admin</h4>
+      <div className="card p-3 mb-3">
+        <strong>Total revenus:</strong> {totalRevenue.toLocaleString()} CDF
+      </div>
+
+      <div className="card p-3">
+        <h6>Dernières factures</h6>
+        <table className="table table-sm">
+          <thead><tr>
+            <th>#</th><th>Date</th><th>Itinéraire</th><th>Montant</th><th>Mode</th>
+          </tr></thead>
+          <tbody>
+            {invoices.map((inv, idx)=>(
+              <tr key={inv.id||idx}>
+                <td>{idx+1}</td>
+                <td>{new Date(inv.date).toLocaleString()}</td>
+                <td>{inv.itinerary}</td>
+                <td>{(inv.finalAmount||0).toLocaleString()}</td>
+                <td>{inv.paymentMethod}</td>
+              </tr>
+            ))}
+            {invoices.length===0 && <tr><td colSpan="5">Aucune facture</td></tr>}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
